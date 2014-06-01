@@ -9,6 +9,13 @@
 
 log "Install Rails"
 
+directory '/home/vagrant/.chef_exec/' do
+  owner  'vagrant'
+  group  'vagrant'
+  mode   '0755'
+  action :create
+end
+
 bash "rails install" do
   code <<-EOC
     export PATH="/home/vagrant/.rbenv/bin:$PATH"
@@ -16,4 +23,5 @@ bash "rails install" do
     gem update --system
     gem install --no-ri --no-rdoc rails
   EOC
+  creates "/home/vagrant/.chef_exec/rails"
 end

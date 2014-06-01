@@ -10,11 +10,13 @@
 
 log "Install Ruby"
 
-#package "ruby" do
-#  action :purge
-#end
+directory '/home/vagrant/.chef_exec/' do
+  owner  'vagrant'
+  group  'vagrant'
+  mode   '0755'
+  action :create
+end
 
-#%w{build-essential curl zlib1g-dev libreadline-dev libyaml-dev libxml2-dev libxslt-dev sqlite3 libsqlite3-dev nodejs make gcc ncurses-dev libgdbm-dev libdb4.8-dev libffi-dev tk-dev}.each do |pkg|
 %w{build-essential curl zlib1g-dev libreadline-dev libyaml-dev libxml2-dev libxslt-dev sqlite3 libsqlite3-dev nodejs make gcc ncurses-dev libgdbm-dev libffi-dev tk-dev openssl readline-common libdb5.3-dev}.each do |pkg|
   package pkg do
     action :install
@@ -48,22 +50,11 @@ end
 
 bash "insert_line_rbenvpath" do
   code <<-EOS
-    echo 'export PATH="/home/vagrant/.rbenv/bin:$PATH"' >> /home/vagrant/.bashrc && source /home/vagrant/.bashrc
+    echo 'export PATH="/home/vagrant/.rbenv/bin:$PATH"' >> /home/vagrant/.bashrc
     echo 'eval "$(rbenv init -)"' >> /home/vagrant/.bashrc
   EOS
+  creates "/home/vagrant/.chef_exec/rbenvpath"
 end
-
-##bash "install ruby" do
-##  user "vagrant"
-##  group "vagrant"
-##  code <<-EOS
-##    /home/vagrant/.rbenv/bin/rbenv install 2.0.0-p0
-##    /home/vagrant/.rbenv/bin/rbenv rehash
-##    /home/vagrant/.rbenv/bin/rbenv global 2.0.0-p0
-##  EOS
-##end
-
-
 
 
 bash "install ruby" do
@@ -74,5 +65,6 @@ bash "install ruby" do
     /home/vagrant/.rbenv/bin/rbenv rehash
     /home/vagrant/.rbenv/bin/rbenv global 2.1.1
   EOS
+  creates "/home/vagrant/.chef_exec/ruby"
 end
 
