@@ -1,0 +1,23 @@
+---
+driver:
+  name: vagrant
+
+provisioner:
+  name: chef_solo
+
+platforms:
+  - name: ubuntu-14.04
+
+suites:
+  - name: default
+    run_list:
+      - recipe[update::default]
+      - recipe[git::default]
+      - recipe[ruby::default]
+      - recipe[rails::default]
+      - recipe[vim::default]
+    attributes:
+
+busser:
+  sudo: true
+
