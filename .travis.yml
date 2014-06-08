@@ -2,7 +2,6 @@ language: ruby
 rvm:
   - 2.1.1
 script:
-  - bundle exec kitchen init
   - bundle exec install
   - kitchen test
 
