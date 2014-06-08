@@ -16,6 +16,7 @@ suites:
       - recipe[ruby::default]
       - recipe[rails::default]
       - recipe[vim::default]
+      - recipe[docker::default]
     attributes:
 
 busser:
