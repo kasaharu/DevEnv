@@ -9,9 +9,9 @@
 
 log "Install Git"
 
-directory '/home/vagrant/.chef_exec/' do
-  owner  'vagrant'
-  group  'vagrant'
+directory "#{node["docker"]["home"]}/.chef_exec/" do
+  owner  node["docker"]["owner"]
+  group  node["docker"]["group"]
   mode   '0755'
   action :create
 end
@@ -24,6 +24,6 @@ bash "insert_line_rbenvpath" do
   code <<-EOS
     ln -sf /usr/bin/docker.io /usr/local/bin/docker
   EOS
-  creates "/home/vagrant/.chef_exec/docker"
+  creates "#{node["docker"]["home"]}/.chef_exec/docker"
 end
 

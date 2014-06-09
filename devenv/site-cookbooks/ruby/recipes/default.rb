@@ -10,9 +10,9 @@
 
 log "Install Ruby"
 
-directory '/home/vagrant/.chef_exec/' do
-  owner  'vagrant'
-  group  'vagrant'
+directory "#{node["ruby"]["home"]}/.chef_exec/" do
+  owner  node["ruby"]["owner"]
+  group  node["ruby"]["group"]
   mode   '0755'
   action :create
 end
@@ -27,24 +27,24 @@ git "/home/vagrant/.rbenv" do
   repository "git://github.com/sstephenson/rbenv.git"
   reference "master"
   action :sync
-  user "vagrant"
-  group "vagrant"
+  user   node["ruby"]["user"]
+  group  node["ruby"]["group"]
 end
 
 %w{/home/vagrant/.rbenv/plugins}.each do |dir|
   directory dir do
     action :create
-    user "vagrant"
-    group "vagrant"
+    user   node["ruby"]["user"]
+    group  node["ruby"]["group"]
   end
 end
 
-git "/home/vagrant/.rbenv/plugins/ruby-build" do
+git "#{node["ruby"]["home"]}/.rbenv/plugins/ruby-build" do
   repository "git://github.com/sstephenson/ruby-build.git"
   reference "master"
   action :sync
-  user "vagrant"
-  group "vagrant"
+  user   node["ruby"]["user"]
+  group  node["ruby"]["group"]
 end
 
 
@@ -58,13 +58,13 @@ end
 
 
 bash "install ruby" do
-  user "vagrant"
-  group "vagrant"
+  user   node["ruby"]["user"]
+  group  node["ruby"]["group"]
   code <<-EOS
     curl -fsSL https://gist.github.com/mislav/a18b9d7f0dc5b9efc162.txt | /home/vagrant/.rbenv/bin/rbenv install --patch 2.1.1
     /home/vagrant/.rbenv/bin/rbenv rehash
     /home/vagrant/.rbenv/bin/rbenv global 2.1.1
   EOS
-  creates "/home/vagrant/.chef_exec/ruby"
+  creates "#{node["ruby"]["home"]}/.chef_exec/ruby"
 end
 

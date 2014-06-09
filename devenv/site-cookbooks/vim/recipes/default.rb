@@ -12,9 +12,9 @@ package "vim" do
   action :install
 end
 
-template "/home/vagrant/.vimrc" do
+template "#{node["vim"]["home"]}/.vimrc" do
   source "vimrc.erb"
-  owner "vagrant"
-  group "vagrant"
+  owner  node["vim"]["owner"]
+  group  node["vim"]["group"]
   mode 0644
 end

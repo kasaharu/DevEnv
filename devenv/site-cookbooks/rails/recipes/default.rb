@@ -9,19 +9,19 @@
 
 log "Install Rails"
 
-directory '/home/vagrant/.chef_exec/' do
-  owner  'vagrant'
-  group  'vagrant'
+directory  "#{node["rails"]["home"]}/.chef_exec/" do
+  owner  node["rails"]["owner"]
+  group  node["rails"]["group"]
   mode   '0755'
   action :create
 end
 
 bash "rails install" do
   code <<-EOC
-    export PATH="/home/vagrant/.rbenv/bin:$PATH"
+    export PATH="#{node["rails"]["home"]}/.rbenv/bin:$PATH"
     eval "$(rbenv init -)"
     gem update --system
     gem install --no-ri --no-rdoc rails
   EOC
-  creates "/home/vagrant/.chef_exec/rails"
+  creates "#{node["rails"]["home"]}/.chef_exec/rails"
 end
