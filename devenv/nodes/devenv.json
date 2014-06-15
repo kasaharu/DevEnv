@@ -5,6 +5,7 @@
     "recipe[ruby]",
     "recipe[rails]",
     "recipe[vim]",
-    "recipe[docker]"
+    "recipe[docker]",
+    "recipe[android]"
     ]
 }
